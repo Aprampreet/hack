@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-hv^wrhaj##rf+j4w@kus7p$zb_v2e%5t@2y76=$7unm2_au&40
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['hack-2-gcqi.onrender.com']
+ALLOWED_HOSTS = [*]
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
