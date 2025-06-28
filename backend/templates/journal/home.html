@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Mind Garden - Journal Your Growth{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-amber-50 py-20 px-6 text-center">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-6xl mb-4">🌿</div>
+    <h1 class="font-display text-5xl font-bold text-amber-900 mb-3">Mind Bloom</h1>
+    <p class="text-xl text-amber-700 mb-6">Nurture your thoughts and let them blossom in your digital garden.</p>
+    <div class="space-x-4">
+      <a href="{% url 'register' %}" class="bg-amber-800 hover:bg-amber-900 text-white px-6 py-3 rounded-lg font-medium">🌱 Get Started</a>
+      <a href="{% url 'login' %}" class="border-2 border-amber-800 text-amber-800 hover:bg-amber-800 hover:text-white px-6 py-3 rounded-lg font-medium">📖 Sign In</a>
+    </div>
+  </div>
+</div>
+
+<!-- Features Section -->
+<div class="py-16 bg-white px-6">
+  <div class="max-w-6xl mx-auto text-center mb-10">
+    <h2 class="font-display text-4xl font-bold text-amber-900 mb-3">Features That Help You Bloom</h2>
+    <p class="text-lg text-amber-700">More than journaling — a space to grow emotionally and mentally.</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+    <div class="bg-amber-50 p-6 rounded-xl border border-amber-200 hover:shadow">
+      <div class="text-4xl mb-3">💧</div>
+      <h3 class="font-semibold text-amber-900 mb-2">Water Your Memories</h3>
+      <p class="text-amber-700 text-sm">Revisit past entries to prevent them from "wilting" over time.</p>
+    </div>
+    <div class="bg-amber-50 p-6 rounded-xl border border-amber-200 hover:shadow">
+      <div class="text-4xl mb-3">📈</div>
+      <h3 class="font-semibold text-amber-900 mb-2">Streak Tracker</h3>
+      <p class="text-amber-700 text-sm">Stay consistent and build your journaling habit with streaks.</p>
+    </div>
+    <div class="bg-amber-50 p-6 rounded-xl border border-amber-200 hover:shadow">
+      <div class="text-4xl mb-3">🙏</div>
+      <h3 class="font-semibold text-amber-900 mb-2">God’s Message</h3>
+      <p class="text-amber-700 text-sm">Receive spiritual messages based on your current mood.</p>
+    </div>
+  </div>
+</div>
+
+<!-- How It Works -->
+<div class="py-16 bg-amber-100 px-6">
+  <div class="max-w-5xl mx-auto text-center mb-12">
+    <h2 class="font-display text-3xl font-bold text-amber-900 mb-3">How Your Mind Garden Grows</h2>
+    <p class="text-amber-700">It’s as easy as planting, watering, and watching it grow.</p>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center text-sm">
+    <div>
+      <div class="w-14 h-14 mx-auto rounded-full border-2 border-amber-300 bg-white flex items-center justify-center shadow mb-2">✍️</div>
+      <p class="font-semibold text-amber-900">Plant</p>
+      <p class="text-amber-700">Write your thoughts daily</p>
+    </div>
+    <div>
+      <div class="w-14 h-14 mx-auto rounded-full border-2 border-amber-300 bg-white flex items-center justify-center shadow mb-2">💧</div>
+      <p class="font-semibold text-amber-900">Water</p>
+      <p class="text-amber-700">Revisit entries to renew them</p>
+    </div>
+    <div>
+      <div class="w-14 h-14 mx-auto rounded-full border-2 border-amber-300 bg-white flex items-center justify-center shadow mb-2">🌱</div>
+      <p class="font-semibold text-amber-900">Grow</p>
+      <p class="text-amber-700">Track growth over time</p>
+    </div>
+    <div>
+      <div class="w-14 h-14 mx-auto rounded-full border-2 border-amber-300 bg-white flex items-center justify-center shadow mb-2">🙏</div>
+      <p class="font-semibold text-amber-900">Reflect</p>
+      <p class="text-amber-700">Get a comforting message</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="py-20 bg-amber-800 text-center text-amber-100 px-6">
+  <h2 class="font-display text-3xl font-bold mb-4">Start Your Mind Bloom Today</h2>
+  <p class="text-lg mb-6">Journal your growth. Reflect on your journey. Stay connected to yourself.</p>
+  <a href="{% url 'register' %}" class="bg-amber-200 text-amber-900 font-semibold px-8 py-4 rounded-lg hover:bg-amber-300 text-lg">🌿 Join Now</a>
+</div>
+
+<!-- Footer -->
+<footer class="bg-amber-900 text-amber-200 text-center py-6 text-sm">
+  &copy; {% now "Y" %} Mind Bloome — Cultivate peace, one entry at a time.
+</footer>
+{% endblock %}

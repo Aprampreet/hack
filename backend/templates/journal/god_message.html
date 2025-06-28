@@ -1,0 +1,29 @@
+<!-- templates/journal/god_message.html -->
+{% extends "base.html" %}
+{% block title %}God's Message{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto text-center py-12">
+  <h2 class="text-3xl font-display mb-4">🕊️ God's Message</h2>
+  <form method="post" class="mb-6">
+    {% csrf_token %}
+    <label for="mood" class="block text-lg mb-2">How are you feeling today?</label>
+    <select name="mood" id="mood" class="w-full p-2 border rounded text-lg">
+      <option value="happy">😊 Happy</option>
+      <option value="sad">😢 Sad</option>
+      <option value="anxious">😰 Anxious</option>
+      <option value="grateful">🙏 Grateful</option>
+      <option value="lonely">😔 Lonely</option>
+      <option value="reflective">🤔 Reflective</option>
+    </select>
+    <button class="mt-4 px-6 py-2 bg-amber-800 text-white rounded hover:bg-amber-900">
+      🙏 Get Message
+    </button>
+  </form>
+
+  {% if message %}
+    <div class="bg-amber-100 p-4 rounded border text-lg">
+      <p>{{ message }}</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

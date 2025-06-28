@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Journal{% endblock %}</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['Crimson Text', 'serif'],
+                        'display': ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-amber-50 text-amber-900 font-serif">
+    <!-- Navigation -->
+    <!-- Sticky Navigation -->
+<nav class="bg-amber-900 text-amber-100 shadow-lg sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="flex justify-between items-center h-16">
+      
+      <!-- Logo / App Name -->
+      <a href="{% url 'dashboard' %}" class="font-display text-xl font-semibold hover:text-amber-200">
+        🌿 Mind Bloom
+      </a>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex space-x-6 items-center font-medium">
+        {% if user.is_authenticated %}
+          <a href="{% url 'home' %}" class="hover:text-amber-200 transition-colors">Overview</a>
+          <a href="{% url 'dashboard' %}" class="hover:text-amber-200 transition-colors">Dashboard</a>
+          <a href="{% url 'create_entry' %}" class="hover:text-amber-200 transition-colors">New Entry</a>
+          <a href="{% url 'god_message' %}" class="hover:text-amber-200 transition-colors">🌤️ God's Message</a>
+          <a href="{% url 'logout' %}" class="hover:text-red-300 transition-colors">Logout</a>
+
+        {% else %}
+          <a href="{% url 'login' %}" class="bg-amber-200 text-amber-900 px-4 py-1 rounded hover:bg-amber-300 transition">Login</a>
+          <a href="{% url 'register' %}" class="bg-amber-200 text-amber-900 px-4 py-1 rounded hover:bg-amber-300 transition">Register</a>
+        {% endif %}
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button class="md:hidden mobile-menu-btn">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu hidden md:hidden pb-4 space-y-2 font-medium">
+      {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}" class="block hover:text-amber-200">Dashboard</a>
+        <a href="{% url 'create_entry' %}" class="block hover:text-amber-200">New Entry</a>
+        <a href="{% url 'logout' %}" class="block hover:text-red-300">Logout</a>
+        <a href="{% url 'god_message' %}" class="hover:text-amber-200 transition-colors">🌤️ God's Message</a>
+
+      {% else %}
+        <a href="{% url 'login' %}" class="block hover:text-amber-200">Login</a>
+        <a href="{% url 'register' %}" class="block hover:text-amber-200">Register</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8 min-h-screen">
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="bg-amber-200 border border-amber-400 text-amber-800 px-4 py-3 rounded mb-4">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-amber-900 text-amber-100 text-center py-6">
+        <p>&copy; {% now "Y" %} Mind Bloom</p>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!-- journal/templates/journal/create_entry.html -->
+{% extends "base.html" %}
+
+{% block title %}Plant New Thought - My Journal{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-10 bg-amber-50 border-2 border-amber-300 rounded-lg shadow-xl p-8">
+
+  <!-- Header -->
+  <div class="text-center mb-8">
+    <div class="text-4xl mb-3">🌱</div>
+    <h2 class="font-display text-3xl font-semibold text-amber-900 mb-2">Plant a New Thought</h2>
+    <p class="text-amber-700">Let your ideas take root and grow</p>
+  </div>
+
+  <form method="POST" class="space-y-6">
+    {% csrf_token %}
+
+    <!-- Title Field -->
+    <div>
+      <label class="block text-amber-800 font-medium mb-2">Thought Title</label>
+      <input type="text" 
+             name="memory_title" 
+             class="w-full border-2 border-amber-300 rounded-lg p-4 bg-amber-100 text-amber-900 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-200 transition-all font-serif text-lg"
+             placeholder="What's on your mind today?"
+             required>
+      {% if form.memory_title.errors %}
+        <p class="text-red-600 text-sm mt-2">{{ form.memory_title.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Content Field -->
+    <div>
+      <label class="block text-amber-800 font-medium mb-2">Your Thoughts</label>
+      <textarea name="content" 
+                rows="10"
+                class="w-full border-2 border-amber-300 rounded-lg p-4 bg-amber-100 text-amber-900 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-200 transition-all font-serif text-lg resize-vertical"
+                placeholder="Pour your heart out... What happened today? How are you feeling? What are you thinking about?"
+                required></textarea>
+      {% if form.content.errors %}
+        <p class="text-red-600 text-sm mt-2">{{ form.content.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Mood Field -->
+    <div>
+      <label class="block text-amber-800 font-medium mb-2">Current Mood</label>
+      <select name="mood" 
+              class="w-full border-2 border-amber-300 rounded-lg p-4 bg-amber-100 text-amber-900 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-200 transition-all font-serif text-lg">
+        <option value="">How are you feeling?</option>
+        <option value="happy">😊 Happy & Joyful</option>
+        <option value="sad">😢 Sad & Melancholy</option>
+        <option value="excited">🎉 Excited & Energetic</option>
+        <option value="calm">😌 Calm & Peaceful</option>
+        <option value="anxious">😰 Anxious & Worried</option>
+        <option value="grateful">🙏 Grateful & Thankful</option>
+        <option value="reflective">🤔 Reflective & Thoughtful</option>
+        <option value="creative">🎨 Creative & Inspired</option>
+        <option value="nostalgic">💭 Nostalgic & Reminiscent</option>
+      </select>
+      {% if form.mood.errors %}
+        <p class="text-red-600 text-sm mt-2">{{ form.mood.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center pt-6">
+      <button type="submit" 
+              class="bg-amber-800 hover:bg-amber-900 text-amber-100 font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 font-serif text-lg">
+        🌱 Plant This Thought
+      </button>
+    </div>
+  </form>
+
+  <!-- Navigation -->
+  <div class="mt-8 pt-6 border-t border-amber-300 text-center">
+    <a href="{% url 'dashboard' %}" 
+       class="text-amber-700 hover:text-amber-900 font-medium underline transition-colors">
+      🌿 Back to Your Garden
+    </a>
+  </div>
+
+  <!-- Inspiration Quote -->
+  <div class="mt-6 text-center">
+    <p class="text-amber-600 italic text-sm font-serif">
+      "The best time to plant a tree was 20 years ago. The second best time is now."
+    </p>
+  </div>
+</div>
+{% endblock %}

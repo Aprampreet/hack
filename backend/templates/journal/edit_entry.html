@@ -1,0 +1,83 @@
+<!-- journal/templates/journal/edit_entry.html -->
+{% extends "base.html" %}
+
+{% block title %}Edit Entry - {{ entry.title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto mt-10 bg-amber-100 border-2 border-amber-300 rounded-lg shadow-xl p-8">
+
+  <!-- Header -->
+  <div class="text-center mb-6">
+    <h2 class="font-display text-2xl font-semibold text-amber-900 mb-2">✏️ Edit Thought</h2>
+    <p class="text-amber-700 text-sm">Refine and nurture your memory</p>
+  </div>
+
+  <form method="POST" class="space-y-6">
+    {% csrf_token %}
+
+    <!-- Title Field -->
+    <div>
+      <label class="block text-amber-800 font-medium mb-2">Title</label>
+      <input type="text" 
+             name="memory_title" 
+             value="{{ form.memory_title.value|default:'' }}"
+             class="w-full border-2 border-amber-300 rounded-lg p-3 bg-amber-50 text-amber-900 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-200 transition-all font-serif"
+             placeholder="Give your thought a meaningful title">
+      {% if form.memory_title.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ form.memory_title.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Content Field -->
+    <div>
+      <label class="block text-amber-800 font-medium mb-2">Content</label>
+      <textarea name="content" 
+                rows="8"
+                class="w-full border-2 border-amber-300 rounded-lg p-3 bg-amber-50 text-amber-900 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-200 transition-all font-serif resize-vertical"
+                placeholder="Pour your thoughts onto the page...">{{ form.content.value|default:'' }}</textarea>
+      {% if form.content.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ form.content.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Mood Field -->
+    <div>
+      <label class="block text-amber-800 font-medium mb-2">Mood</label>
+      <select name="mood" 
+              class="w-full border-2 border-amber-300 rounded-lg p-3 bg-amber-50 text-amber-900 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-200 transition-all font-serif">
+        <option value="">Select your mood...</option>
+        <option value="happy" {% if form.mood.value == 'happy' %}selected{% endif %}>😊 Happy</option>
+        <option value="sad" {% if form.mood.value == 'sad' %}selected{% endif %}>😢 Sad</option>
+        <option value="excited" {% if form.mood.value == 'excited' %}selected{% endif %}>🎉 Excited</option>
+        <option value="calm" {% if form.mood.value == 'calm' %}selected{% endif %}>😌 Calm</option>
+        <option value="anxious" {% if form.mood.value == 'anxious' %}selected{% endif %}>😰 Anxious</option>
+        <option value="grateful" {% if form.mood.value == 'grateful' %}selected{% endif %}>🙏 Grateful</option>
+        <option value="reflective" {% if form.mood.value == 'reflective' %}selected{% endif %}>🤔 Reflective</option>
+      </select>
+      {% if form.mood.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ form.mood.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center pt-4">
+      <button type="submit" 
+              class="bg-amber-800 hover:bg-amber-900 text-amber-100 font-medium px-6 py-3 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl font-serif">
+        💾 Save Changes
+      </button>
+    </div>
+  </form>
+
+  <!-- Navigation -->
+  <div class="mt-6 pt-4 border-t border-amber-300 text-center">
+    <a href="{% url 'view_entry' entry.id %}" 
+       class="text-amber-700 hover:text-amber-900 underline mr-4">
+      ← Back to Entry
+    </a>
+    <a href="{% url 'dashboard' %}" 
+       class="text-amber-700 hover:text-amber-900 underline">
+      🌿 Back to Garden
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,166 @@
+<!-- journal/templates/journal/view_entry.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ entry.title }} - My Journal{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto mt-8">
+  
+  <!-- Back Navigation -->
+  <div class="mb-6">
+    <a href="{% url 'dashboard' %}" 
+       class="inline-flex items-center text-amber-700 hover:text-amber-900 font-medium transition-colors duration-200">
+      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to Garden
+    </a>
+  </div>
+
+  <!-- Entry Card -->
+  <article class="bg-amber-50 border-2 rounded-lg shadow-xl overflow-hidden
+                 {% if entry.is_dead %}
+                   border-red-400 bg-red-50
+                 {% else %}
+                   border-amber-300
+                 {% endif %}">
+    
+    <!-- Entry Header -->
+    <header class="bg-amber-100 border-b-2 border-amber-200 p-6">
+      <div class="flex items-start justify-between">
+        <div class="flex-1">
+          <h1 class="font-display text-3xl font-semibold text-amber-900 mb-3">
+            {{ entry.memory_title }}
+          </h1>
+          
+          <!-- Entry Meta -->
+          <div class="flex flex-wrap items-center gap-4 text-sm text-amber-700">
+            <div class="flex items-center">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+              </svg>
+              Created: {{ entry.created_at|date:"F j, Y" }}
+            </div>
+            <div class="flex items-center">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+              </svg>
+              Last watered: {{ entry.last_watered|timesince }} ago
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Status Badge -->
+        <div class="ml-4">
+          {% if not entry.is_dead %}
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 border border-green-200">
+              🌱 Growing Strong
+            </span>
+          {% else %}
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 border border-red-200">
+              💀 Withered Away
+            </span>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    <!-- Entry Content -->
+    <div class="p-8">
+      <div class="prose prose-amber max-w-none">
+        <div class="text-amber-900 leading-relaxed text-lg font-serif whitespace-pre-wrap">
+          {{ entry.content }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Entry Footer with Actions -->
+    <footer class="bg-amber-100 border-t-2 border-amber-200 p-6">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        
+        <!-- Water Action -->
+        <div class="flex items-center space-x-3">
+          {% if not entry.is_dead %}
+            <form method="post" action="{% url 'water_entry' entry.id %}" class="inline">
+              {% csrf_token %}
+              <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 shadow hover:shadow-md flex items-center">
+                💧 Water This Thought
+              </button>
+            </form>
+          {% else %}
+            <div class="text-red-600 font-medium flex items-center">
+              💀 This thought needs revival
+            </div>
+          {% endif %}
+        </div>
+        {% if entry.mood %}
+  <div class="flex items-center">
+    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 22s8-4.438 8-10a8 8 0 10-16 0c0 5.562 8 10 8 10z" />
+    </svg>
+    Mood: <span class="ml-1 font-medium">{{ entry.get_mood_display }}</span>
+  </div>
+{% endif %}
+
+
+        <!-- Edit Actions -->
+        <div class="flex items-center space-x-3">
+          <a href="{% url 'edit_entry' entry.id %}" 
+             class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 shadow hover:shadow-md">
+            ✏️ Edit
+          </a>
+          
+          <button onclick="confirmDelete()" 
+                  class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 shadow hover:shadow-md">
+            🗑️ Delete
+          </button>
+        </div>
+      </div>
+    </footer>
+  </article>
+
+  
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-amber-50 border-2 border-amber-300 rounded-lg p-6 max-w-md mx-4">
+    <h3 class="font-display text-lg font-semibold text-amber-900 mb-3">
+      🗑️ Delete This Thought?
+    </h3>
+    <p class="text-amber-700 mb-6">
+      Are you sure you want to permanently remove "{{ entry.title }}" from your garden? This action cannot be undone.
+    </p>
+    <div class="flex space-x-3">
+      <form method="post" action="{% url 'delete_entry' entry.id %}" class="inline">
+        {% csrf_token %}
+        <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+          Yes, Delete
+        </button>
+      </form>
+      <button onclick="closeDeleteModal()" 
+              class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function confirmDelete() {
+  document.getElementById('deleteModal').classList.remove('hidden');
+  document.getElementById('deleteModal').classList.add('flex');
+}
+
+function closeDeleteModal() {
+  document.getElementById('deleteModal').classList.add('hidden');
+  document.getElementById('deleteModal').classList.remove('flex');
+}
+
+// Close modal when clicking outside
+document.getElementById('deleteModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeDeleteModal();
+  }
+});
+</script>
+{% endblock %}
