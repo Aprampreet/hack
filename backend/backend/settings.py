@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['hack-1-n0ht.onrender.com']
 
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # Application definition
 
